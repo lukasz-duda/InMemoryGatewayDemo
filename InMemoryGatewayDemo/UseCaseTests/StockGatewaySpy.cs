@@ -1,4 +1,6 @@
-﻿namespace InMemoryGatewayDemo
+﻿using InMemoryGatewayDemo.Gateways;
+
+namespace InMemoryGatewayDemo.UseCaseTests
 {
     public class StockGatewaySpy : IStockGateway
     {

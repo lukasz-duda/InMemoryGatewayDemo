@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.Entities
 {
     public class Employee : Entity
     {

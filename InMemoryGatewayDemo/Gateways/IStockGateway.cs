@@ -1,4 +1,4 @@
-﻿namespace InMemoryGatewayDemo
+﻿namespace InMemoryGatewayDemo.Gateways
 {
     public interface IStockGateway
     {

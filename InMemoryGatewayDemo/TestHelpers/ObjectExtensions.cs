@@ -9,9 +9,7 @@ namespace InMemoryGatewayDemo
         public static T Clone<T>(this object source)
         {
             T destination = Activator.CreateInstance<T>();
-
             Copy<T>(source, destination);
-
             return destination;
         }
 

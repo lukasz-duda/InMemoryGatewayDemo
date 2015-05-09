@@ -1,4 +1,4 @@
-﻿namespace InMemoryGatewayDemo
+﻿namespace InMemoryGatewayDemo.Entities
 {
     public abstract class Entity
     {

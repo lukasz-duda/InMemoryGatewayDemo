@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using InMemoryGatewayDemo.Entities;
+using InMemoryGatewayDemo.Gateways;
+using System.Linq;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.UseCaseTests
 {
     public class EquipmentInMemoryGateway : InMemoryGateway<Equipment>, IEquipmentGateway
     {

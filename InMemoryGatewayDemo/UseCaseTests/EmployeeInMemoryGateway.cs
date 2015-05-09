@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using InMemoryGatewayDemo.Entities;
+using InMemoryGatewayDemo.Gateways;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.UseCaseTests
 {
     public class EmployeeInMemoryGateway : InMemoryGateway<Employee>, IEmployeeGateway
     {

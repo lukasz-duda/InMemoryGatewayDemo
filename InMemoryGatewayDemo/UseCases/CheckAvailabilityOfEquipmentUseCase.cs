@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-namespace InMemoryGatewayDemo
+﻿using InMemoryGatewayDemo.Entities;
+using InMemoryGatewayDemo.Gateways;
+using System.Collections.Generic;
+
+namespace InMemoryGatewayDemo.UseCases
 {
     public class CheckAvailabilityOfEquipmentUseCase
     {

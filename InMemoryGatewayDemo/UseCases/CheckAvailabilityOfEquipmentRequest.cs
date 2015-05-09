@@ -1,4 +1,4 @@
-﻿namespace InMemoryGatewayDemo
+﻿namespace InMemoryGatewayDemo.UseCases
 {
     public class CheckAvailabilityOfEquipmentRequest
     {

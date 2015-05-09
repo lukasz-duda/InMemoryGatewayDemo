@@ -1,7 +1,10 @@
-﻿using NUnit.Framework;
+﻿using InMemoryGatewayDemo.Entities;
+using InMemoryGatewayDemo.Gateways;
+using InMemoryGatewayDemo.UseCases;
+using NUnit.Framework;
 using System;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.UseCaseTests
 {
     [TestFixture]
     public class CheckAvailabilityOfEquipmentUseCaseTest

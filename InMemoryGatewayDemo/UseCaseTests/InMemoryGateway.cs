@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using InMemoryGatewayDemo.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.UseCaseTests
 {
     public class InMemoryGateway<T> where T : Entity
     {

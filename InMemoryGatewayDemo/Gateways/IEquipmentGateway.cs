@@ -1,4 +1,6 @@
-﻿namespace InMemoryGatewayDemo
+﻿using InMemoryGatewayDemo.Entities;
+
+namespace InMemoryGatewayDemo.Gateways
 {
     public interface IEquipmentGateway
     {

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using InMemoryGatewayDemo.Entities;
+using System.Collections.Generic;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.Gateways
 {
     public interface IEmployeeGateway
     {

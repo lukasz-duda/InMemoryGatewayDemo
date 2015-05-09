@@ -41,25 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckAvailabilityOfEquipmentRequest.cs" />
-    <Compile Include="CheckAvailabilityOfEquipmentUseCase.cs" />
-    <Compile Include="CheckAvailabilityOfEquipmentUseCaseTest.cs" />
-    <Compile Include="DateTimeProviderStub.cs" />
-    <Compile Include="Employee.cs" />
-    <Compile Include="EmployeeInMemoryGateway.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Equipment.cs" />
-    <Compile Include="EquipmentInMemoryGateway.cs" />
-    <Compile Include="IDateTimeProvider.cs" />
-    <Compile Include="IEmployeeGateway.cs" />
-    <Compile Include="IEquipmentGateway.cs" />
-    <Compile Include="InMemoryGateway.cs" />
-    <Compile Include="IStockGateway.cs" />
-    <Compile Include="ObjectExtensions.cs" />
+    <Compile Include="UseCases\CheckAvailabilityOfEquipmentRequest.cs" />
+    <Compile Include="UseCases\CheckAvailabilityOfEquipmentUseCase.cs" />
+    <Compile Include="UseCaseTests\CheckAvailabilityOfEquipmentUseCaseTest.cs" />
+    <Compile Include="TestHelpers\DateTimeProviderStub.cs" />
+    <Compile Include="Entities\Employee.cs" />
+    <Compile Include="UseCaseTests\EmployeeInMemoryGateway.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Equipment.cs" />
+    <Compile Include="UseCaseTests\EquipmentInMemoryGateway.cs" />
+    <Compile Include="Gateways\IDateTimeProvider.cs" />
+    <Compile Include="Gateways\IEmployeeGateway.cs" />
+    <Compile Include="Gateways\IEquipmentGateway.cs" />
+    <Compile Include="UseCaseTests\InMemoryGateway.cs" />
+    <Compile Include="Gateways\IStockGateway.cs" />
+    <Compile Include="TestHelpers\ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sector.cs" />
-    <Compile Include="StockGatewaySpy.cs" />
+    <Compile Include="Entities\Sector.cs" />
+    <Compile Include="UseCaseTests\StockGatewaySpy.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

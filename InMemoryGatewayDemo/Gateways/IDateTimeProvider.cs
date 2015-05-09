@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InMemoryGatewayDemo
+namespace InMemoryGatewayDemo.Gateways
 {
     public interface IDateTimeProvider
     {
