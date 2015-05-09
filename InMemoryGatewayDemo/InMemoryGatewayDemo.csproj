@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckAvailabilityOfEquipmentUseCase.cs" />
     <Compile Include="CheckAvailabilityOfEquipmentUseCaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
