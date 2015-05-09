@@ -1,4 +1,5 @@
-﻿namespace InMemoryGatewayDemo
+﻿using System.Collections.Generic;
+namespace InMemoryGatewayDemo
 {
     public class CheckAvailabilityOfEquipmentUseCase
     {
@@ -12,15 +13,24 @@
 
         public void Execute(CheckAvailabilityOfEquipmentRequest request)
         {
-            foreach (Employee employee in EmployeeGateway.FindEmployeesBySector(request.SectorId))
+            IList<Employee> employeesInSector = EmployeeGateway.FindEmployeesBySector(request.SectorId);
+            foreach (Employee employee in employeesInSector)
             {
-                if (employee.ScheduledToWork(DateTime.Now()))
+                CheckEmployeeEquipment(employeesInSector[0]);
+            }
+        }
+
+        private void CheckEmployeeEquipment(Employee employee)
+        {
+            if (employee.ScheduledToWork(DateTime.Now()))
+            {
+                if (EquipmentGateway.HasEquipmentForEmployee(employee.Id))
                 {
-                    if (EquipmentGateway.HasEquipmentForEmployee(employee.Id))
-                    {
-                        Equipment equipment = EquipmentGateway.GetEquipmentForEmployee(employee.Id);
-                        StockGateway.SendRequestEquipmentMessage(employee.Id, equipment.Id);
-                    }
+                    Equipment equipment = EquipmentGateway.GetEquipmentForEmployee(employee.Id);
+                    StockGateway.SendRequestEquipmentMessage(employee.Id, equipment.Id);
+                }
+                else
+                {
                     StockGateway.SendNoEquipmentWarning(employee.Id);
                 }
             }
