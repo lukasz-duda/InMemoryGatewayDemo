@@ -12,6 +12,7 @@ namespace InMemoryGatewayDemo
         private EmployeeInMemoryGateway employeeGateway;
         private Sector sector;
         private StockGatewaySpy stockGateway;
+        private EquipmentInMemoryGateway equipmentGateway;
 
         [SetUp]
         public virtual void SetUpTestMethod()
@@ -26,24 +27,33 @@ namespace InMemoryGatewayDemo
             useCase.EmployeeGateway = (IEmployeeGateway)employeeGateway;
 
             sector = new Sector();
-            sector.Id = 35;
+            sector.Id = 1;
 
             stockGateway = new StockGatewaySpy();
             useCase.StockGateway = (IStockGateway)stockGateway;
+
+            equipmentGateway = new EquipmentInMemoryGateway();
+            useCase.EquipmentGateway = (IEquipmentGateway)equipmentGateway;
         }
 
         [Test]
         public void WithScheduledEmployeeWithoutEquipment_SendsWarningToStock()
         {
-            var employee = new Employee();
-            employee.Sector = sector;
-            employee.ScheduleWork(now);
+            Employee employee = MakeScheduledEmployee();
             employeeGateway.Save(employee);
 
             Execute();
 
             Assert.True(stockGateway.SentNoEquipmentWarning);
             Assert.AreEqual(employee.Id, stockGateway.ReportedEmployeeWithoutEquipmentId);
+        }
+
+        private Employee MakeScheduledEmployee()
+        {
+            var employee = new Employee();
+            employee.Sector = sector;
+            employee.ScheduleWork(now);
+            return employee;
         }
 
         public void Execute()
@@ -54,7 +64,7 @@ namespace InMemoryGatewayDemo
         }
 
         [Test]
-        public void WithNotScheduledEmployee_DoesntSendWarningToStock()
+        public void WithNotScheduledEmployee_DoesntSendAnyMessageToStock()
         {
             var employee = new Employee();
             employee.Sector = sector;
@@ -63,13 +73,14 @@ namespace InMemoryGatewayDemo
             Execute();
 
             Assert.False(stockGateway.SentNoEquipmentWarning);
+            Assert.False(stockGateway.SentRequestEquipmentMessage);
         }
 
         [Test]
-        public void WithScheduledEmployeeFromDifferentSector_DoesntSendWarningToStock()
+        public void WithScheduledEmployeeFromDifferentSector_DoesntAnyMessageToStock()
         {
             Sector differentSector = new Sector();
-            differentSector.Id = 55;
+            differentSector.Id = 2;
             var employee = new Employee();
             employee.Sector = differentSector;
             employee.ScheduleWork(now);
@@ -78,6 +89,23 @@ namespace InMemoryGatewayDemo
             Execute();
 
             Assert.False(stockGateway.SentNoEquipmentWarning);
+            Assert.False(stockGateway.SentRequestEquipmentMessage);
+        }
+
+        [Test]
+        public void WithEquipment_SendsRequestToStock()
+        {
+            Employee employee = MakeScheduledEmployee();
+            employeeGateway.Save(employee);
+            Equipment equipment = new Equipment();
+            equipment.Employee = employee;
+            equipmentGateway.Save(equipment);
+
+            Execute();
+
+            Assert.True(stockGateway.SentRequestEquipmentMessage);
+            Assert.AreEqual(equipment.Id, stockGateway.RequestedEquipmentId);
+            Assert.AreEqual(employee.Id, stockGateway.RequestedEquipmentEmployeeId);
         }
     }
 }

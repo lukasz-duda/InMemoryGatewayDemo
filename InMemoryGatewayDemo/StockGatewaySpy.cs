@@ -1,13 +1,19 @@
-﻿using System;
-
-namespace InMemoryGatewayDemo
+﻿namespace InMemoryGatewayDemo
 {
     public class StockGatewaySpy : IStockGateway
     {
         public void SendRequestEquipmentMessage(long employeeId, long equipmentId)
         {
-            throw new NotImplementedException();
+            SentRequestEquipmentMessage = true;
+            RequestedEquipmentEmployeeId = employeeId;
+            RequestedEquipmentId = equipmentId;
         }
+
+        public bool SentRequestEquipmentMessage { get; private set; }
+
+        public long RequestedEquipmentId { get; private set; }
+
+        public long RequestedEquipmentEmployeeId { get; private set; }
 
         public void SendNoEquipmentWarning(long employeeId)
         {

@@ -2,9 +2,11 @@
 {
     public class CheckAvailabilityOfEquipmentUseCase
     {
+        public IEmployeeGateway EmployeeGateway { get; set; }
+
         public IDateTimeProvider DateTime { get; set; }
 
-        public IEmployeeGateway EmployeeGateway { get; set; }
+        public IEquipmentGateway EquipmentGateway { get; set; }
 
         public IStockGateway StockGateway { get; set; }
 
@@ -14,6 +16,11 @@
             {
                 if (employee.ScheduledToWork(DateTime.Now()))
                 {
+                    if (EquipmentGateway.HasEquipmentForEmployee(employee.Id))
+                    {
+                        Equipment equipment = EquipmentGateway.GetEquipmentForEmployee(employee.Id);
+                        StockGateway.SendRequestEquipmentMessage(employee.Id, equipment.Id);
+                    }
                     StockGateway.SendNoEquipmentWarning(employee.Id);
                 }
             }

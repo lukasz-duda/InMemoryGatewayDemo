@@ -47,6 +47,8 @@
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeInMemoryGateway.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Equipment.cs" />
+    <Compile Include="EquipmentInMemoryGateway.cs" />
     <Compile Include="IDateTimeProvider.cs" />
     <Compile Include="IEmployeeGateway.cs" />
     <Compile Include="IEquipmentGateway.cs" />
