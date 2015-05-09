@@ -12,7 +12,10 @@
         {
             foreach (Employee employee in EmployeeGateway.FindEmployeesBySector(request.SectorId))
             {
-                StockGateway.SendNoEquipmentWarning(employee.Id);
+                if (employee.ScheduledToWork(DateTime.Now()))
+                {
+                    StockGateway.SendNoEquipmentWarning(employee.Id);
+                }
             }
         }
     }

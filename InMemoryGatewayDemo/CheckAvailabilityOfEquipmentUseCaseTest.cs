@@ -3,15 +3,17 @@ using System;
 
 namespace InMemoryGatewayDemo
 {
+    [TestFixture]
     public class CheckAvailabilityOfEquipmentUseCaseTest
     {
-        protected DateTime now;
-        protected CheckAvailabilityOfEquipmentUseCase useCase;
-        protected DateTimeProviderStub dateTimeProvider;
-        protected EmployeeInMemoryGateway employeeGateway;
-        protected Sector sector;
-        protected StockGatewaySpy stockGateway;
+        private DateTime now;
+        private CheckAvailabilityOfEquipmentUseCase useCase;
+        private DateTimeProviderStub dateTimeProvider;
+        private EmployeeInMemoryGateway employeeGateway;
+        private Sector sector;
+        private StockGatewaySpy stockGateway;
 
+        [SetUp]
         public virtual void SetUpTestMethod()
         {
             useCase = new CheckAvailabilityOfEquipmentUseCase();
@@ -30,6 +32,20 @@ namespace InMemoryGatewayDemo
             useCase.StockGateway = (IStockGateway)stockGateway;
         }
 
+        [Test]
+        public void WithScheduledEmployeeWithoutEquipment_SendsWarningToStock()
+        {
+            var employee = new Employee();
+            employee.Sector = sector;
+            employee.ScheduleWork(now);
+            employeeGateway.Save(employee);
+
+            Execute();
+
+            Assert.True(stockGateway.SentNoEquipmentWarning);
+            Assert.AreEqual(employee.Id, stockGateway.ReportedEmployeeWithoutEquipmentId);
+        }
+
         public void Execute()
         {
             var request = new CheckAvailabilityOfEquipmentRequest();
@@ -37,29 +53,31 @@ namespace InMemoryGatewayDemo
             useCase.Execute(request);
         }
 
-        [TestFixture]
-        public class GivenScheduledEmployeeInSectorWithoutEquipment : CheckAvailabilityOfEquipmentUseCaseTest
+        [Test]
+        public void WithNotScheduledEmployee_DoesntSendWarningToStock()
         {
-            protected Employee employee;
+            var employee = new Employee();
+            employee.Sector = sector;
+            employeeGateway.Save(employee);
 
-            [SetUp]
-            public override void SetUpTestMethod()
-            {
-                base.SetUpTestMethod();
-                employee = new Employee();
-                employee.ScheduleWork(now);
-                employee.Sector = sector;
-                employeeGateway.Save(employee);
-            }
+            Execute();
 
-            [Test]
-            public void SendsWarningToStock()
-            {
-                Execute();
+            Assert.False(stockGateway.SentNoEquipmentWarning);
+        }
 
-                Assert.True(stockGateway.SentNoEquipmentWarning);
-                Assert.AreEqual(employee.Id, stockGateway.ReportedEmployeeWithoutEquipmentId);
-            }
+        [Test]
+        public void WithScheduledEmployeeFromDifferentSector_DoesntSendWarningToStock()
+        {
+            Sector differentSector = new Sector();
+            differentSector.Id = 55;
+            var employee = new Employee();
+            employee.Sector = differentSector;
+            employee.ScheduleWork(now);
+            employeeGateway.Save(employee);
+
+            Execute();
+
+            Assert.False(stockGateway.SentNoEquipmentWarning);
         }
     }
 }

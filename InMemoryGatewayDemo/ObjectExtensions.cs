@@ -10,33 +10,31 @@ namespace InMemoryGatewayDemo
         {
             T destination = Activator.CreateInstance<T>();
 
-            CopyProperties<T>(source, destination);
+            Copy<T>(source, destination);
 
             return destination;
         }
 
-        private static void CopyProperties<T>(object source, T destination)
+        private static void Copy<T>(object source, T destination)
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
-            PropertyInfo[] fields = source.GetType().GetProperties(bindingFlags);
-            PropertyInfo[] destinationFields = typeof(T).GetProperties(bindingFlags);
 
-            foreach (PropertyInfo sourceField in fields)
+            PropertyInfo[] sourceProperties = source.GetType().GetProperties(bindingFlags);
+            PropertyInfo[] destinationProperties = typeof(T).GetProperties(bindingFlags);
+
+            foreach (PropertyInfo sourceProperty in sourceProperties)
             {
-                bool destinationContainsField = destinationFields
-                    .Where(x => x.Name == sourceField.Name)
-                    .Where(x => x.PropertyType == sourceField.PropertyType)
-                    .Any();
+                PropertyInfo destinationField = destinationProperties.Single(x => x.Name == sourceProperty.Name);
+                destinationField.SetValue(destination, sourceProperty.GetValue(source, null), null);
+            }
 
-                if (destinationContainsField)
-                {
-                    PropertyInfo destinationField = destinationFields
-                        .Where(x => x.Name == sourceField.Name)
-                        .Where(x => x.PropertyType == sourceField.PropertyType)
-                        .Single();
+            FieldInfo[] sourceFields = source.GetType().GetFields(bindingFlags);
+            FieldInfo[] destinationFields = typeof(T).GetFields(bindingFlags);
 
-                    destinationField.SetValue(destination, sourceField.GetValue(source, null), null);
-                }
+            foreach (FieldInfo sourceField in sourceFields)
+            {
+                FieldInfo destinationField = destinationFields.Single(x => x.Name == sourceField.Name);
+                destinationField.SetValue(destination, sourceField.GetValue(source));
             }
         }
     }

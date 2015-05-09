@@ -13,14 +13,14 @@ namespace InMemoryGatewayDemo
             workingDays = new List<DateTime>();
         }
 
-        public void ScheduleWork(DateTime date)
+        public void ScheduleWork(DateTime dateTime)
         {
-            workingDays.Add(date);
+            workingDays.Add(dateTime.Date);
         }
 
-        public bool ScheduledToWork(DateTime date)
+        public bool ScheduledToWork(DateTime dateTime)
         {
-            return workingDays.Any(workDate => workDate == date);
+            return workingDays.Any(workDate => workDate == dateTime.Date);
         }
 
         public virtual Sector Sector { get; set; }
