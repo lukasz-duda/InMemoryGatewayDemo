@@ -149,5 +149,32 @@ namespace InMemoryGatewayDemo.UseCaseTests
             equipment.Employee = employee;
             equipmentGateway.Save(equipment);
         }
+
+        [Test]
+        public void WithMultipleEmployees()
+        {
+            SetUpEmployeeFromDifferentSector();
+
+            var employeeWithoutEquipment = new Employee();
+            employeeWithoutEquipment.Sector = sector;
+            employeeWithoutEquipment.ScheduleWork(now);
+            employeeGateway.Save(employeeWithoutEquipment);
+
+            var employeeWithEquipment = new Employee();
+            employeeWithEquipment.Sector = sector;
+            employeeWithEquipment.ScheduleWork(now);
+            employeeGateway.Save(employeeWithEquipment);
+            equipment = new Equipment();
+            equipment.Employee = employeeWithEquipment;
+            equipmentGateway.Save(equipment);
+
+            Execute();
+
+            Assert.True(stockGateway.SentNoEquipmentWarning);
+            Assert.AreEqual(employeeWithoutEquipment.Id, stockGateway.ReportedEmployeeWithoutEquipmentId);
+            Assert.True(stockGateway.SentRequestEquipmentMessage);
+            Assert.AreEqual(equipment.Id, stockGateway.RequestedEquipmentId);
+            Assert.AreEqual(employeeWithEquipment.Id, stockGateway.RequestedEquipmentEmployeeId);
+        }
     }
 }

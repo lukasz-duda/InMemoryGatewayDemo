@@ -19,7 +19,7 @@ namespace InMemoryGatewayDemo.UseCases
             IList<Employee> employeesInSector = EmployeeGateway.FindEmployeesBySector(request.SectorId);
             foreach (Employee employee in employeesInSector)
             {
-                CheckEmployeeEquipment(employeesInSector[0]);
+                CheckEmployeeEquipment(employee);
             }
         }
 
